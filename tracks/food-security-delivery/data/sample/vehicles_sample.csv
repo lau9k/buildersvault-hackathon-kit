@@ -1,5 +1,5 @@
 vehicle_id,type,capacity_meals,capacity_weight_kg,refrigerated,wheelchair_lift,availability_start,availability_end,fuel_type
-VEH-01,car,40,150.0,False,False,08:00:00,14:00:00,gasoline
+VEH-01,car,40,150.0,True,False,08:00:00,14:00:00,hybrid
 VEH-02,car,40,150.0,False,False,08:00:00,18:00:00,hybrid
 VEH-03,car,40,150.0,False,False,06:00:00,18:00:00,electric
 VEH-04,van,90,450.0,True,False,07:00:00,14:00:00,gasoline

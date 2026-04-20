@@ -22,14 +22,14 @@ The generator produces:
 | Table | Rows | What it is |
 |---|---|---|
 | depots | 2 | Central (downtown Victoria) + satellite (Saanich) |
-| vehicles | 8 | Mix of car, van, cargo_van, bike (1 wheelchair-lift, 4 refrigerated) |
+| vehicles | 8 | Mix of car, van, cargo_van, bike. 1 wheelchair-lift (VEH-06), 5 refrigerated (includes VEH-01, a car with insulated-cooler kit) |
 | drivers | 8 | 6 volunteer + 2 staff, with skill and availability flags |
 | clients | 500 | Mobility-limited Victoria residents receiving delivered meals |
-| delivery_requests | 2,000 | Standing + ad-hoc delivery requests with time windows |
-| routes | 300 | Roughly 3 weeks of daily routes with planned vs actual |
-| route_stops | ~1,500 | Join table with actuals, failure reasons, signatures (averages 5 stops/route, realistic for MOW) |
+| delivery_requests | 10,000 | Standing + ad-hoc delivery requests with time windows, spread over the 3-week operating horizon |
+| routes | 300 | Roughly 3 weeks of daily routes with planned vs actual. ~196 active, ~104 retained empty by design (no constraint-compatible request on that service_date) |
+| route_stops | ~3,500 | Join table with actuals, failure reasons, signatures. Roughly 17 stops per active route, realistic MOW density |
 | inventory_items | ~150 | Meal and hamper catalogue with allergen + dietary tags |
-| delivery_request_items | ~4,000 | Line items per delivery |
+| delivery_request_items | ~24,000 | Line items per delivery |
 
 See `dictionary/fields.csv` for every column.
 

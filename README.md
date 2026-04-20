@@ -88,7 +88,7 @@ Victoria has a growing population of mobility-limited residents who rely on deli
 
 Domain anchors: Meals on Wheels, grocery-hamper delivery, vehicle routing (Onfleet / Routific schemas), cold-chain handling, volunteer ops.
 
-**Data:** 2 depots, 8 vehicles, 8 drivers (6 volunteer), 500 clients, 2,000 delivery requests, 300 routes over 3 weeks, ~1,500 route stops with actuals, 150 inventory items, ~4,900 line items.
+**Data:** 2 depots, 8 vehicles (5 refrigerated, 1 wheelchair-lift), 8 drivers (6 volunteer), 500 clients, 10,000 delivery requests, 300 routes over 3 weeks, ~3,500 route stops with actuals (realistic MOW density at roughly 17 stops per active route), 150 inventory items, ~24,000 line items.
 
 See `tracks/food-security-delivery/README.md` for track-specific details.
 

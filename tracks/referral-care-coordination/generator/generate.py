@@ -858,31 +858,99 @@ def build_consents(
         if consent_idx > N_CONSENTS:
             break
 
-    # If short of N_CONSENTS (unlikely), pad with extra active records
+    # Pad to N_CONSENTS while respecting the target status distribution.
+    # (Earlier versions defaulted padding rows to status='active' which pushed the
+    # active share to ~93%. We mirror the weighted_choice in the main loop so the
+    # headline distribution stays near 68% active, 8% expired, 7% withdrawn,
+    # 15% superseded, 2% pending.)
+    pad_status_weights = [
+        ("active", 0.68),
+        ("expired", 0.08),
+        ("withdrawn", 0.07),
+        ("superseded", 0.15),
+        ("pending", 0.02),
+    ]
     while len(rows) < N_CONSENTS:
         cid = rng.choice(client_ids)
         cons_id = f"CNS-{len(rows) + 1:05d}"
+        pad_status = weighted_choice(pad_status_weights)
+        given = rand_date_between(HORIZON_START, TODAY)
+        effective = given
+        expiry = given + timedelta(days=rng.randint(180, 365 * 2))
+        withdrawal_date = None
+        superseded_date = None
+        if pad_status == "withdrawn":
+            withdrawal_date = rand_date_between(given, TODAY)
+        if pad_status == "superseded":
+            superseded_date = rand_date_between(given, TODAY)
+        if pad_status == "expired":
+            expiry = rand_date_between(given, TODAY - timedelta(days=1))
         rows.append(
             {
                 "consent_id": cons_id,
                 "client_id": cid,
                 "collecting_org_id": rng.choice(org_ids),
                 "dsa_id": rng.randint(1, 4),
-                "consent_type": "explicit",
-                "status": "active",
-                "legal_basis": "pipa",
-                "purpose_codes": "case_mgmt",
-                "data_categories": "demographics",
-                "sharing_scope_type": "all_dsa_agencies",
+                "consent_type": weighted_choice(
+                    [
+                        ("explicit", 0.55),
+                        ("coordinated_access", 0.15),
+                        ("inherited", 0.08),
+                        ("declined_anonymous", 0.04),
+                        ("implied", 0.15),
+                        ("opt_out", 0.03),
+                    ]
+                ),
+                "status": pad_status,
+                "legal_basis": weighted_choice(
+                    [
+                        ("pipa", 0.40),
+                        ("foippa", 0.20),
+                        ("pipa_and_foippa", 0.25),
+                        ("foippa_statutory", 0.10),
+                        ("indigenous_governance", 0.05),
+                    ]
+                ),
+                "purpose_codes": ",".join(
+                    rng.sample(
+                        ["case_mgmt", "referrals", "reporting", "research", "coordinated_access"],
+                        k=rng.randint(1, 3),
+                    )
+                ),
+                "data_categories": ",".join(
+                    rng.sample(
+                        [
+                            "demographics",
+                            "housing_status",
+                            "mental_health",
+                            "substance_use",
+                            "medical",
+                            "financial",
+                            "family",
+                        ],
+                        k=rng.randint(1, 4),
+                    )
+                ),
+                "sharing_scope_type": weighted_choice(
+                    [
+                        ("all_dsa_agencies", 0.45),
+                        ("limited_agencies", 0.25),
+                        ("single_agency_only", 0.20),
+                        ("no_sharing", 0.07),
+                        ("anonymous_only", 0.03),
+                    ]
+                ),
                 "sharing_scope_agency_ids": None,
-                "given_date": rand_date_between(HORIZON_START, TODAY),
-                "effective_date": rand_date_between(HORIZON_START, TODAY),
-                "expiry_date": TODAY + timedelta(days=365),
-                "withdrawal_date": None,
-                "superseded_date": None,
-                "consent_source": "digital_form",
+                "given_date": given,
+                "effective_date": effective,
+                "expiry_date": expiry,
+                "withdrawal_date": withdrawal_date,
+                "superseded_date": superseded_date,
+                "consent_source": rng.choice(["paper", "digital_form", "verbal_logged", "portal"]),
                 "obtained_by_user_id": f"USR-{rng.randint(1, 40):03d}",
-                "witness_user_id": None,
+                "witness_user_id": (
+                    f"USR-{rng.randint(1, 40):03d}" if rng.random() < 0.3 else None
+                ),
                 "consent_document_ref": f"DOC-{rng.randint(10000, 99999)}",
                 "notes": None,
                 "_age_at_consent": 30,

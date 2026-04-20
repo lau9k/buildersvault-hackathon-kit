@@ -21,7 +21,7 @@ The datasets in this kit are synthetic but they were designed to carry the shape
 The datasets are sized to fit comfortably on a laptop and to let baseline models train in under 30 seconds. Full sizes:
 
 - Track 1: 9 organizations, 800 clients, 3,000 referrals, 10,000 service encounters, 5,000 consent records, 500 duplicate flags (300 true positive, 200 decoy false positive)
-- Track 2: 2 depots, 8 vehicles, 8 drivers, 500 clients, 300 routes, 2,000 delivery requests, ~1,500 stops, 150 inventory items, ~4,900 line items
+- Track 2: 2 depots, 8 vehicles (5 refrigerated, 1 wheelchair-lift), 8 drivers, 500 clients, 300 routes, 10,000 delivery requests, ~3,500 stops, 150 inventory items, ~24,000 line items
 
 Both tracks emit Parquet (canonical), SQLite (for pre-joined views), and sample CSVs (for GitHub preview).
 

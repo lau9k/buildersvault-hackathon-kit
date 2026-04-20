@@ -17,10 +17,10 @@ Tables:
 - drivers (8)
 - clients (500)
 - inventory_items (~150)
-- delivery_requests (2,000)
+- delivery_requests (10,000)
 - routes (300)
-- route_stops (~10,000)
-- delivery_request_items (~4,000)
+- route_stops (~3,500)
+- delivery_request_items (~25,000)
 
 Run:
     python generate.py
@@ -64,9 +64,9 @@ N_DEPOTS = 2
 N_VEHICLES = 8
 N_DRIVERS = 8
 N_CLIENTS = 500
-N_REQUESTS = 2_000
+N_REQUESTS = 10_000
 N_ROUTES = 300
-TARGET_REQUEST_ITEMS = 4_000
+TARGET_REQUEST_ITEMS = 20_000
 TARGET_INVENTORY_ITEMS = 150
 
 # Time windows
@@ -206,7 +206,11 @@ def build_vehicles() -> pd.DataFrame:
     Fuel: gasoline / hybrid / electric mix; bike = N/A.
     """
     specs = [
-        ("VEH-01", "car", 40, 150.0, False, False, "gasoline"),
+        # (id, type, capacity_meals, capacity_weight_kg, refrigerated, wheelchair_lift, fuel)
+        # 5 of 8 vehicles refrigerated (cars w/ insulated-cooler kits count as
+        # refrigerated for cold-chain purposes) so supply roughly matches the
+        # ~70% cold-chain demand from MOW_hot + MOW_frozen programs.
+        ("VEH-01", "car", 40, 150.0, True, False, "hybrid"),
         ("VEH-02", "car", 40, 150.0, False, False, "hybrid"),
         ("VEH-03", "car", 40, 150.0, False, False, "electric"),
         ("VEH-04", "van", 90, 450.0, True, False, "gasoline"),
@@ -968,10 +972,10 @@ def build_routes(
         actual_duration = int(planned_time * rng.uniform(0.90, 1.20))
         actual_end = actual_start + timedelta(minutes=actual_duration)
 
-        planned_stops = rng.randint(15, 35)
+        planned_stops = rng.randint(25, 45)
         actual_stops = planned_stops  # stop-gen sets skips; we keep planned==actual row-count
 
-        planned_distance = round(rng.uniform(12.0, 55.0), 1)
+        planned_distance = round(rng.uniform(18.0, 70.0), 1)
         actual_distance = round(planned_distance * rng.uniform(0.90, 1.10), 1)
 
         # Enforce cutoff
@@ -1693,18 +1697,28 @@ def inject_messiness(
         null_mask = stops_df.sample(frac=0.10, random_state=SEED + 5).index
         stops_df.loc[null_mask, col] = [messy_null() for _ in null_mask]
 
-    # Seed 4 deceased/closed constraint violations (constraint 12)
-    # Find deceased/closed clients with no requests after closure_date; for 4 of
-    # them, create a spurious request-after-closure and mark it in driver_notes.
+    # Seed 4 deceased/closed constraint violations (constraint 12).
+    # Earlier versions picked any request for the closed client, but many such
+    # requests never got assigned to a route, so the "delivered after closure"
+    # tag landed on 0-2 stops instead of 4. We now restrict to closed clients
+    # whose requests actually produced a route_stop (ensuring the tag lands).
     closed_clients = clients_df[
         clients_df["enrolment_status"].isin(["deceased", "closed"])
     ].copy()
-    if len(closed_clients) >= 4:
-        sample = closed_clients.sample(n=4, random_state=SEED + 6)
+    # Build the set of client_ids that have at least one request with a stop
+    assigned_request_ids = set(stops_df["request_id"].dropna().unique())
+    assigned_reqs = requests_df[requests_df["request_id"].isin(assigned_request_ids)]
+    clients_with_stops = set(assigned_reqs["client_id"].unique())
+    seedable = closed_clients[closed_clients["client_id"].isin(clients_with_stops)].copy()
+    seeded = 0
+    if len(seedable) >= 4:
+        sample = seedable.sample(n=4, random_state=SEED + 6)
         for _, cli in sample.iterrows():
-            # Pick a random request belonging to this client's closure date and
-            # shift the scheduled_date to AFTER closure
-            reqs_for_client = requests_df[requests_df["client_id"] == cli["client_id"]]
+            # Prefer a request belonging to this client that DOES have a stop
+            reqs_for_client = requests_df[
+                (requests_df["client_id"] == cli["client_id"])
+                & (requests_df["request_id"].isin(assigned_request_ids))
+            ]
             if reqs_for_client.empty:
                 continue
             # Parse closure_date if it's been messied to string
@@ -1726,6 +1740,7 @@ def inject_messiness(
             if not stop_hits.empty:
                 sidx = stop_hits.index[0]
                 stops_df.at[sidx, "driver_notes"] = "DATA_QUALITY_ISSUE: delivered after closure"
+                seeded += 1
 
     return clients_df, requests_df, routes_df, stops_df, drivers_df, items_df
 
