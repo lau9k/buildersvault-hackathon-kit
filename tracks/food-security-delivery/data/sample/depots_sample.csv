@@ -1,0 +1,3 @@
+depot_id,name,address,lat,lng,capacity_meals_per_day,hours_start,hours_end
+DEP-01,Victoria Central Depot,"620 Yates Street, Victoria, BC",48.429115,-123.37475,450,06:00:00,18:00:00
+DEP-02,Saanich Satellite Depot,"3980 Quadra Street, Saanich, BC",48.47775,-123.402768,250,07:00:00,17:00:00

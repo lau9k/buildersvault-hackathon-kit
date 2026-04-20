@@ -1,0 +1,5 @@
+dsa_id,dsa_name,dsa_type,governing_statute,effective_date,expiry_date,signatories
+1,HIFIS Common DSA (BC Cluster),hifis_common,PIPA,2024-01-01,2027-12-31,"ORG-0001,ORG-0002,ORG-0003,ORG-0004,ORG-0008,ORG-0009"
+2,FOIPPA Information Sharing Agreement (Public Bodies),foippa_isa,FOIPPA,2024-03-15,2029-03-14,"ORG-0005,ORG-0006,ORG-0008"
+3,Bilateral Housing-Addictions Coordination Agreement,bilateral,PIPA,2025-06-01,2028-05-31,"ORG-0004,ORG-0008"
+4,Indigenous Data Governance Agreement (OCAP-aligned),indigenous_governance,OCAP/Nation-level,2024-09-30,2029-09-29,"ORG-0001,ORG-0003,ORG-0008,ORG-0009"

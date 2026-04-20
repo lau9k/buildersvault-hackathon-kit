@@ -1,0 +1,110 @@
+erDiagram
+    DEPOTS ||--o{ CLIENTS : "home_depot_id"
+    DEPOTS ||--o{ DRIVERS : "home_base_depot_id"
+    DEPOTS ||--o{ ROUTES : "start_depot_id"
+    DEPOTS ||--o{ ROUTES : "end_depot_id"
+    VEHICLES ||--o{ DRIVERS : "vehicle_id"
+    VEHICLES ||--o{ ROUTES : "vehicle_id"
+    DRIVERS ||--o{ ROUTES : "driver_id"
+    CLIENTS ||--o{ DELIVERY_REQUESTS : "client_id"
+    CLIENTS ||--o{ ROUTE_STOPS : "client_id"
+    DELIVERY_REQUESTS ||--o{ ROUTE_STOPS : "request_id"
+    ROUTES ||--o{ ROUTE_STOPS : "route_id"
+    DELIVERY_REQUESTS ||--o{ DELIVERY_REQUEST_ITEMS : "request_id"
+    INVENTORY_ITEMS ||--o{ DELIVERY_REQUEST_ITEMS : "item_id"
+
+    DEPOTS {
+        string depot_id PK
+        string name
+        string address
+        float lat
+        float lng
+        int capacity_meals_per_day
+        string hours_start
+        string hours_end
+    }
+
+    VEHICLES {
+        string vehicle_id PK
+        enum type
+        int capacity_meals
+        float capacity_weight_kg
+        bool refrigerated
+        bool wheelchair_lift
+        enum fuel_type
+    }
+
+    DRIVERS {
+        string driver_id PK
+        string first_name
+        string last_name
+        enum role_type
+        string home_base_depot_id FK
+        string vehicle_id FK
+        int max_stops
+        float on_time_rate
+    }
+
+    CLIENTS {
+        string client_id PK
+        string first_name
+        string last_name
+        date dob
+        string address_street
+        float lat
+        float lng
+        string home_depot_id FK
+        enum food_security_level
+    }
+
+    DELIVERY_REQUESTS {
+        string request_id PK
+        string client_id FK
+        date scheduled_date
+        int quantity_meals
+        enum priority_level
+        enum frequency
+        enum status
+        string assigned_route_id FK
+    }
+
+    ROUTES {
+        string route_id PK
+        date service_date
+        string driver_id FK
+        string vehicle_id FK
+        string start_depot_id FK
+        string end_depot_id FK
+        int planned_stops
+        int meals_delivered
+        enum route_status
+    }
+
+    ROUTE_STOPS {
+        string route_stop_id PK
+        string route_id FK
+        string request_id FK
+        string client_id FK
+        int sequence_index
+        datetime planned_arrival
+        datetime actual_arrival
+        enum status
+    }
+
+    INVENTORY_ITEMS {
+        string item_id PK
+        string name
+        enum category
+        string unit
+        string allergen_flags
+        bool cold_chain_required
+        float standard_cost
+    }
+
+    DELIVERY_REQUEST_ITEMS {
+        string line_id PK
+        string request_id FK
+        string item_id FK
+        int quantity
+        string notes
+    }

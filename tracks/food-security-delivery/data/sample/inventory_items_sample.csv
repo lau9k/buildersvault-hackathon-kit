@@ -1,0 +1,151 @@
+item_id,name,category,unit,allergen_flags,dietary_tags,cold_chain_required,standard_cost
+ITM-0001,Roast Chicken & Vegetables,hot_meal,each,,,True,8.49
+ITM-0002,Beef Stew,hot_meal,each,,,True,7.42
+ITM-0003,Shepherd's Pie,hot_meal,each,,,True,7.55
+ITM-0004,Turkey Dinner,hot_meal,each,,,True,7.0
+ITM-0005,Lasagna,hot_meal,each,,,True,4.79
+ITM-0006,Chicken Pot Pie,hot_meal,each,,,True,6.51
+ITM-0007,Meatloaf & Mash,hot_meal,each,,,True,7.11
+ITM-0008,Fish & Chips,hot_meal,each,,,True,5.37
+ITM-0009,Salmon & Rice,hot_meal,each,fish,,True,7.54
+ITM-0010,Vegetable Curry,hot_meal,each,,,True,8.83
+ITM-0011,Tofu Stir-Fry,hot_meal,each,soy,,True,4.43
+ITM-0012,Pasta Primavera,hot_meal,each,wheat,,True,7.43
+ITM-0013,Chicken Soup & Roll,hot_meal,each,,,True,7.53
+ITM-0014,Beef Chili,hot_meal,each,,,True,5.46
+ITM-0015,Pork Roast Dinner,hot_meal,each,,,True,6.63
+ITM-0016,Chicken Alfredo,hot_meal,each,,,True,7.42
+ITM-0017,Baked Ziti,hot_meal,each,,,True,8.91
+ITM-0018,Cabbage Rolls,hot_meal,each,,,True,4.78
+ITM-0019,Butter Chicken,hot_meal,each,dairy,,True,6.22
+ITM-0020,Beef Stroganoff,hot_meal,each,,,True,7.8
+ITM-0021,Macaroni & Cheese,hot_meal,each,dairy,,True,8.2
+ITM-0022,Chicken Tikka,hot_meal,each,,,True,7.26
+ITM-0023,Vegetable Stew,hot_meal,each,,,True,7.95
+ITM-0024,Cod & Potatoes,hot_meal,each,fish,,True,7.09
+ITM-0025,Sausage & Beans,hot_meal,each,,,True,6.12
+ITM-0026,Frozen Lasagna Portion,frozen_meal,each,,,True,5.01
+ITM-0027,Frozen Chicken Dinner,frozen_meal,each,,,True,4.71
+ITM-0028,Frozen Beef Stew,frozen_meal,each,,,True,5.33
+ITM-0029,Frozen Vegetable Curry,frozen_meal,each,,,True,7.04
+ITM-0030,Frozen Meatloaf,frozen_meal,each,,,True,3.82
+ITM-0031,Frozen Cottage Pie,frozen_meal,each,,,True,5.11
+ITM-0032,Frozen Turkey Dinner,frozen_meal,each,,,True,6.39
+ITM-0033,Frozen Fish Casserole,frozen_meal,each,,,True,4.9
+ITM-0034,Frozen Mac & Cheese,frozen_meal,each,dairy,,True,4.0
+ITM-0035,Frozen Chili,frozen_meal,each,,,True,5.31
+ITM-0036,Frozen Pasta Primavera,frozen_meal,each,wheat,,True,5.88
+ITM-0037,Frozen Stroganoff,frozen_meal,each,,,True,5.42
+ITM-0038,Frozen Chicken Pot Pie,frozen_meal,each,,,True,7.71
+ITM-0039,Frozen Baked Ziti,frozen_meal,each,,,True,3.54
+ITM-0040,Frozen Butter Chicken,frozen_meal,each,dairy,,True,7.14
+ITM-0041,Frozen Salmon Portion,frozen_meal,each,fish,,True,6.05
+ITM-0042,Frozen Tofu Stir-Fry,frozen_meal,each,soy,,True,4.43
+ITM-0043,Frozen Cabbage Rolls,frozen_meal,each,,,True,6.81
+ITM-0044,Frozen Pork Roast,frozen_meal,each,,,True,7.18
+ITM-0045,Frozen Vegetable Medley,frozen_meal,each,,,True,3.77
+ITM-0046,Apples (bag),produce,each,,heart_healthy;vegan;vegetarian,False,2.0
+ITM-0047,Bananas (bunch),produce,each,,heart_healthy;vegan;vegetarian,False,5.03
+ITM-0048,Oranges (bag),produce,each,,heart_healthy;vegan;vegetarian,False,5.27
+ITM-0049,Pears (bag),produce,each,,heart_healthy;vegan;vegetarian,False,1.89
+ITM-0050,Carrots (bag),produce,each,,heart_healthy;vegan;vegetarian,False,4.81
+ITM-0051,Potatoes (bag),produce,each,,heart_healthy;vegan;vegetarian,False,4.09
+ITM-0052,Onions (bag),produce,each,,heart_healthy;vegan;vegetarian,False,4.43
+ITM-0053,Broccoli head,produce,each,,heart_healthy;vegan;vegetarian,False,2.2
+ITM-0054,Lettuce head,produce,each,,heart_healthy;vegan;vegetarian,False,5.65
+ITM-0055,Tomatoes (pack),produce,each,,heart_healthy;vegan;vegetarian,False,2.15
+ITM-0056,Cucumbers,produce,each,,heart_healthy;vegan;vegetarian,False,3.86
+ITM-0057,Bell Peppers,produce,each,,heart_healthy;vegan;vegetarian,False,4.92
+ITM-0058,Celery bunch,produce,each,,heart_healthy;vegan;vegetarian,False,5.06
+ITM-0059,Spinach bag,produce,each,,heart_healthy;vegan;vegetarian,False,2.47
+ITM-0060,Mushrooms pack,produce,each,,heart_healthy;vegan;vegetarian,False,4.98
+ITM-0061,Sweet Potatoes,produce,each,,heart_healthy;vegan;vegetarian,False,4.2
+ITM-0062,Zucchini,produce,each,,heart_healthy;vegan;vegetarian,False,3.66
+ITM-0063,Cauliflower head,produce,each,,heart_healthy;vegan;vegetarian,False,3.35
+ITM-0064,Green Beans pack,produce,each,,heart_healthy;vegan;vegetarian,False,1.72
+ITM-0065,Blueberries pack,produce,each,,heart_healthy;vegan;vegetarian,False,4.33
+ITM-0066,Strawberries pack,produce,each,,heart_healthy;vegan;vegetarian,False,4.95
+ITM-0067,Grapes bag,produce,each,,heart_healthy;vegan;vegetarian,False,3.46
+ITM-0068,Kiwi pack,produce,each,,heart_healthy;vegan;vegetarian,False,4.62
+ITM-0069,Mango,produce,each,,heart_healthy;vegan;vegetarian,False,5.8
+ITM-0070,Avocado,produce,each,,heart_healthy;vegan;vegetarian,False,5.12
+ITM-0071,Lemons pack,produce,each,,heart_healthy;vegan;vegetarian,False,5.43
+ITM-0072,Limes pack,produce,each,,heart_healthy;vegan;vegetarian,False,5.87
+ITM-0073,Corn cobs,produce,each,,heart_healthy;vegan;vegetarian,False,2.74
+ITM-0074,Peaches pack,produce,each,,heart_healthy;vegan;vegetarian,False,5.07
+ITM-0075,Plums pack,produce,each,,heart_healthy;vegan;vegetarian,False,2.38
+ITM-0076,White Rice 1kg,dry_goods,kg,,,False,3.5
+ITM-0077,Brown Rice 1kg,dry_goods,kg,,,False,2.03
+ITM-0078,Rolled Oats 1kg,dry_goods,kg,,,False,6.19
+ITM-0079,Pasta 500g,dry_goods,kg,wheat,,False,3.67
+ITM-0080,Gluten-Free Pasta 500g,dry_goods,kg,,gluten_free,False,3.1
+ITM-0081,Canned Tomatoes,dry_goods,each,,,False,5.74
+ITM-0082,Canned Black Beans,dry_goods,each,,,False,3.87
+ITM-0083,Canned Chickpeas,dry_goods,each,,,False,6.41
+ITM-0084,Canned Corn,dry_goods,each,,,False,4.0
+ITM-0085,Canned Tuna,dry_goods,each,fish,,False,6.93
+ITM-0086,Canned Salmon,dry_goods,each,fish,,False,4.43
+ITM-0087,Peanut Butter 500g,dry_goods,kg,dairy;peanut,,False,6.64
+ITM-0088,Almond Butter 500g,dry_goods,kg,dairy;tree_nut,,False,3.63
+ITM-0089,Whole Wheat Flour 1kg,dry_goods,kg,wheat,,False,3.36
+ITM-0090,White Flour 1kg,dry_goods,kg,wheat,,False,6.4
+ITM-0091,Sugar 1kg,dry_goods,kg,,,False,3.73
+ITM-0092,Salt 500g,dry_goods,kg,,,False,4.93
+ITM-0093,Honey 500g,dry_goods,kg,,,False,6.46
+ITM-0094,Maple Syrup 250ml,dry_goods,L,,,False,2.2
+ITM-0095,Crackers box,dry_goods,each,wheat,,False,6.45
+ITM-0096,Cereal Box,dry_goods,each,wheat,,False,4.42
+ITM-0097,Granola Bars pack,dry_goods,each,,,False,3.34
+ITM-0098,Bread Loaf,dry_goods,each,wheat,,False,5.74
+ITM-0099,Gluten-Free Bread,dry_goods,each,,gluten_free,False,6.95
+ITM-0100,Tortillas pack,dry_goods,each,wheat,,False,5.16
+ITM-0101,2% Milk 1L,dairy,L,dairy,,True,3.12
+ITM-0102,Skim Milk 1L,dairy,L,dairy,,True,3.11
+ITM-0103,Lactose-Free Milk 1L,dairy,L,,lactose_free,True,5.33
+ITM-0104,Soy Milk 1L,dairy,L,soy,,True,5.87
+ITM-0105,Almond Milk 1L,dairy,L,tree_nut,,True,4.28
+ITM-0106,Yogurt 500g,dairy,kg,dairy,,True,5.64
+ITM-0107,Greek Yogurt 500g,dairy,kg,dairy,,True,6.07
+ITM-0108,Cheddar Cheese 250g,dairy,kg,dairy,,True,5.31
+ITM-0109,Mozzarella 250g,dairy,kg,,,True,2.78
+ITM-0110,Cream Cheese 250g,dairy,kg,dairy,,True,5.2
+ITM-0111,Butter 250g,dairy,kg,dairy,,True,3.19
+ITM-0112,Margarine 250g,dairy,kg,,,True,4.89
+ITM-0113,Cottage Cheese 500g,dairy,kg,dairy,,True,6.92
+ITM-0114,Sour Cream 250ml,dairy,L,dairy,,True,4.34
+ITM-0115,Kefir 500ml,dairy,L,dairy,,True,5.82
+ITM-0116,Chicken Breast 500g,protein,kg,,,True,11.4
+ITM-0117,Chicken Thigh 500g,protein,kg,,,True,5.23
+ITM-0118,Ground Beef 500g,protein,kg,,,True,8.01
+ITM-0119,Pork Chops 500g,protein,kg,,,True,9.9
+ITM-0120,Salmon Fillet 300g,protein,kg,fish,,True,5.37
+ITM-0121,Cod Fillet 300g,protein,kg,fish,,True,4.68
+ITM-0122,Tuna Steak 300g,protein,kg,fish,,True,11.05
+ITM-0123,Turkey Breast 500g,protein,kg,,,True,6.86
+ITM-0124,Ground Turkey 500g,protein,kg,,,True,6.57
+ITM-0125,Pork Tenderloin 500g,protein,kg,,,True,11.09
+ITM-0126,Beef Steak 300g,protein,kg,,,True,10.28
+ITM-0127,Tofu block 500g,protein,kg,soy,vegan;vegetarian,True,10.71
+ITM-0128,Tempeh 300g,protein,kg,soy,vegan;vegetarian,True,5.74
+ITM-0129,Eggs dozen,protein,each,egg,,True,5.97
+ITM-0130,Halal Chicken 500g,protein,kg,,halal,True,4.16
+ITM-0131,Kosher Beef 500g,protein,kg,,kosher,True,7.98
+ITM-0132,Lentils 500g,protein,kg,,vegan;vegetarian,True,6.72
+ITM-0133,Black Beans 500g dry,protein,kg,,vegan;vegetarian,True,6.56
+ITM-0134,Edamame 300g frozen,protein,kg,soy,vegan;vegetarian,True,5.11
+ITM-0135,Chicken Sausages pack,protein,each,,,True,11.31
+ITM-0136,Breakfast Hamper Box,hamper_component,each,,,False,15.79
+ITM-0137,Emergency Food Box Standard,hamper_component,each,,,False,16.25
+ITM-0138,Emergency Food Box Diabetic,hamper_component,each,,diabetic_friendly,False,13.26
+ITM-0139,Emergency Food Box Halal,hamper_component,each,,halal,False,19.11
+ITM-0140,Emergency Food Box Kosher,hamper_component,each,,kosher,False,15.96
+ITM-0141,Indigenous Foods Hamper,hamper_component,box,,,False,19.62
+ITM-0142,Culturally-Specific Hamper South Asian,hamper_component,box,,,False,14.0
+ITM-0143,Culturally-Specific Hamper East Asian,hamper_component,box,,,False,21.23
+ITM-0144,Senior Nutrition Box,hamper_component,each,,,False,10.04
+ITM-0145,Produce Starter Box,hamper_component,each,,,False,18.42
+ITM-0146,Pantry Staples Box,hamper_component,each,,,False,21.65
+ITM-0147,Protein Starter Box,hamper_component,each,,,False,10.34
+ITM-0148,Weekend Survival Hamper,hamper_component,box,,,False,17.21
+ITM-0149,Holiday Food Hamper,hamper_component,box,,,False,15.15
+ITM-0150,Allergen-Free Hamper,hamper_component,box,,,False,19.99

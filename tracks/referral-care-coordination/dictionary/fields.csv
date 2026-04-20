@@ -1,0 +1,130 @@
+table,field,type,description,example,nullable,is_pk,is_fk,fk_target,notes
+organizations,org_id,string,Stable unique identifier for the provider organization,ORG-0042,false,true,false,,HIFIS-style service provider key
+organizations,org_name,string,Human-readable organization name as registered,Our Place Society,false,false,false,,May have legal vs display name variants
+organizations,org_type,enum,Category of service provider from AIRS taxonomy,shelter,false,false,false,,Values: shelter/outreach/housing/health/food/employment/income
+organizations,cluster_id,string,HIFIS cluster grouping organizations under shared governance,CLUSTER-VAN-01,true,false,false,,Used for regional reporting roll-ups
+organizations,address_street,string,Primary service delivery street address,919 Pandora Ave,true,false,false,,Not always the mailing address
+organizations,address_city,string,City of primary service location,Victoria,false,false,false,,BC municipality
+organizations,address_province,string,Two-letter province code,BC,false,false,false,,ISO 3166-2:CA
+organizations,address_postal,string,Canadian postal code with or without space,V8W 1P4,true,false,false,,Format varies in source systems
+organizations,service_taxonomy_code,string,AIRS/211 service taxonomy code for primary offering,BH-1800.8500,false,false,false,,Maps to service_encounters code
+organizations,target_population,string,Primary population served in free text,Adults experiencing homelessness,true,false,false,,Narrative field for context
+organizations,genders_served,string,Comma-separated list of genders served,"all",true,false,false,,Values: all/men/women/non-binary/trans
+organizations,age_min,int,Minimum age eligible for service,19,true,false,false,,Null when no restriction
+organizations,age_max,int,Maximum age eligible for service,64,true,false,false,,Null when no restriction
+organizations,capacity_total_slots,int,Total service capacity expressed as slots or beds,42,true,false,false,,Applies to shelters and program slots
+organizations,capacity_occupied_slots,int,Currently occupied slots at last update,38,true,false,false,,Drives waitlist_flag derivation
+organizations,waitlist_flag,bool,True when organization currently has active waitlist,true,false,false,false,,Derived when occupied >= total
+organizations,waitlist_size,int,Count of clients currently on waitlist,12,true,false,false,,Self-reported by org
+organizations,waitlist_average_days,float,Average wait days for admission in last 30 days,21.5,true,false,false,,Operational metric
+organizations,last_capacity_update,date,Timestamp of most recent capacity refresh,2026-04-15,true,false,false,,Staleness matters for CA routing
+clients,client_id,string,Unique client identifier within source HIFIS instance,CL-00010234,false,true,false,,Not globally unique across clusters
+clients,primary_org_id,string,Organization holding primary case relationship,ORG-0042,true,false,true,organizations.org_id,Nullable when no lead agency
+clients,first_name,string,Given name as recorded at intake,Sarah,false,false,false,,Case and spelling vary across orgs
+clients,last_name,string,Surname as recorded at intake,Thompson,false,false,false,,Hyphenated names common
+clients,middle_name,string,Middle name or initial if provided,Marie,true,false,false,,Rarely collected consistently
+clients,aliases,string,Semi-colon separated list of known aliases,Sara Thomson;S. Thompson,true,false,false,,Key signal for duplicate detection
+clients,dob,date,Date of birth,1984-07-12,true,false,false,,Sometimes day or month unknown
+clients,age,int,Age in years at last contact,41,true,false,false,,Derived but sometimes stored directly
+clients,gender,enum,Self-reported gender identity,woman,true,false,false,,Values: man/woman/non-binary/trans/other/unknown
+clients,indigenous_identity,enum,Self-reported Indigenous identity per OCAP,first_nations,true,false,false,,Values: first_nations/metis/inuit/none/declined
+clients,citizenship_status,enum,Citizenship category from HIFIS,canadian_citizen,true,false,false,,Values: citizen/pr/refugee/claimant/other/unknown
+clients,veteran_status,bool,True when client identifies as veteran,false,true,false,false,,Important for federal program eligibility
+clients,primary_language,string,Preferred language of communication,English,true,false,false,,ISO 639 or plain string
+clients,current_sleeping_location,enum,Where client slept last night per HIFIS standard,shelter,true,false,false,,Values: shelter/unsheltered/couch/supportive/institution/housed
+clients,housing_status,enum,Current housing classification,absolute_homeless,true,false,false,,Canadian Homelessness Definition
+clients,first_homeless_date,date,Earliest known date of homelessness episode,2019-11-03,true,false,false,,Used for chronic calculation
+clients,current_episode_start_date,date,Start of current homelessness episode,2024-08-15,true,false,false,,Resets after 30 days housed
+clients,days_homeless_past_3_years,int,Cumulative homeless days in last 1095 days,612,true,false,false,,Chronic threshold is 180 days
+clients,chronic_homeless_flag,bool,True when client meets federal chronic definition,true,false,false,false,,Derived from days_homeless
+clients,mental_health_flag,bool,Self-reported or assessed mental health condition,true,true,false,false,,PIPA-sensitive attribute
+clients,substance_use_flag,bool,Self-reported or assessed substance use concern,true,true,false,false,,PIPA-sensitive attribute
+clients,physical_health_flag,bool,Self-reported chronic physical health condition,false,true,false,false,,PIPA-sensitive attribute
+clients,developmental_flag,bool,Self-reported developmental disability,false,true,false,false,,PIPA-sensitive attribute
+clients,bnl_active_flag,bool,True when client is on By-Name List,true,false,false,false,,Core BNL membership indicator
+clients,bnl_status,enum,Current BNL status category,active,true,false,false,,Values: active/inactive/housed/deceased/moved
+clients,ca_enrolled_flag,bool,True when enrolled in Coordinated Access,true,false,false,false,,Drives routing to matching
+clients,ca_priority_level,int,Coordinated Access priority score 1-10,8,true,false,false,,Higher value means higher priority
+clients,assessment_tool,enum,Triage assessment tool used,vi_spdat,true,false,false,,Values: vi_spdat/spdat/custom/none
+clients,assessment_date,date,Date of most recent assessment,2026-02-01,true,false,false,,Stale after 6 months
+clients,assessment_total_score,int,Total score from assessment tool,14,true,false,false,,VI-SPDAT scale 0-20
+clients,assessment_acuity_level,enum,Derived acuity bucket,high,true,false,false,,Values: low/moderate/high
+clients,last_contact_date,date,Most recent recorded service contact,2026-04-10,true,false,false,,Inactivity triggers BNL review
+clients,ocap_protected,bool,Record subject to OCAP governance,true,false,false,false,,Restricts sharing without Nation consent
+clients,ocap_governing_nation,string,Nation or organization holding OCAP authority,Esquimalt Nation,true,false,false,,Populated when ocap_protected true
+clients,ocap_data_use_conditions,string,Free text describing allowed uses,Research only with Council approval,true,false,false,,Narrative OCAP terms
+clients,consent_coverage_level,enum,Highest-level active consent currently held,explicit,true,false,false,,Values: none/implied/explicit/revoked
+clients,default_sharing_scope,enum,Default sharing scope when no record-specific override,cluster,true,false,false,,Values: none/org/cluster/ca_table/all
+clients,current_consent_id,string,Pointer to currently authoritative consent record,CON-0099812,true,false,true,consent_records.consent_id,Facilitates lookup without join
+referrals,referral_id,string,Unique identifier for referral transaction,REF-2026-04-0015,false,true,false,,Sequential within cluster
+referrals,client_id,string,Client being referred,CL-00010234,false,false,true,clients.client_id,Required
+referrals,referring_org_id,string,Organization initiating the referral,ORG-0042,false,false,true,organizations.org_id,Source side of handoff
+referrals,receiving_org_id,string,Organization intended to accept referral,ORG-0071,false,false,true,organizations.org_id,Destination side of handoff
+referrals,referral_source_module,enum,HIFIS module or system originating referral,case_management,true,false,false,,Values: case_management/bnl/ca/outreach/walk_in
+referrals,referral_type,enum,Category of service being referred for,housing,false,false,false,,Values: housing/shelter/health/food/mental_health/substance_use/income/other
+referrals,referral_reason,string,Short free-text reason for referral,Needs shelter bed tonight,true,false,false,,Narrative context
+referrals,referral_priority,enum,Urgency of the referral,high,true,false,false,,Values: low/normal/high/critical
+referrals,status,enum,Current state in referral lifecycle,completed,false,false,false,,Values: submitted/acknowledged/accepted/declined/in_progress/completed/cancelled
+referrals,status_reason,string,Free-text explanation of current status,Client housed,true,false,false,,Populated on decline/cancel/complete
+referrals,submitted_at,datetime,Timestamp referral was submitted,2026-04-05T09:14:00,false,false,false,,Start of SLA clock
+referrals,acknowledged_at,datetime,Timestamp receiving org acknowledged,2026-04-05T14:22:00,true,false,false,,Null when not yet acknowledged
+referrals,decision_at,datetime,Timestamp of accept or decline decision,2026-04-06T10:00:00,true,false,false,,SLA measured to this point
+referrals,started_at,datetime,When service actually began after acceptance,2026-04-07T08:00:00,true,false,false,,Distinct from decision_at
+referrals,completed_at,datetime,When referral was marked complete,2026-04-18T17:00:00,true,false,false,,Terminal timestamp
+referrals,cancelled_at,datetime,When referral was cancelled,2026-04-10T11:30:00,true,false,false,,Mutually exclusive with completed_at
+referrals,consent_record_id,string,Consent record authorizing this referral,CON-0099812,true,false,true,consent_records.consent_id,PIPA-required pointer
+referrals,related_service_encounter_id,string,Encounter that fulfilled this referral,ENC-0044521,true,false,true,service_encounters.encounter_id,Links referral to actual service
+referrals,referred_by_worker_name,string,Name of worker who created referral,J. Nguyen,true,false,false,,Free text not user id
+service_encounters,encounter_id,string,Unique identifier for a service encounter,ENC-0044521,false,true,false,,HIFIS-aligned
+service_encounters,client_id,string,Client receiving the service,CL-00010234,false,false,true,clients.client_id,Required
+service_encounters,org_id,string,Organization delivering the service,ORG-0042,false,false,true,organizations.org_id,Required
+service_encounters,encounter_type,enum,Category of service delivered,shelter_stay,false,false,false,,Values: shelter_stay/case_mgmt/outreach/meal/goods/housing_placement/assessment/transport
+service_encounters,reason_for_service,string,Short free-text reason for encounter,Emergency shelter admission,true,false,false,,Narrative detail
+service_encounters,encounter_start,datetime,Start timestamp of encounter,2026-04-07T21:00:00,false,false,false,,Local time
+service_encounters,encounter_end,datetime,End timestamp of encounter,2026-04-08T08:00:00,true,false,false,,Null for open stays
+service_encounters,location_type,enum,Where the encounter took place,onsite,true,false,false,,Values: onsite/outreach/virtual/phone
+service_encounters,staff_role,string,Role of staff who delivered service,case_worker,true,false,false,,Free text role
+service_encounters,staff_initials,string,Staff initials or short identifier,JN,true,false,false,,Used when full name not shareable
+service_encounters,related_referral_id,string,Referral that led to this encounter,REF-2026-04-0015,true,false,true,referrals.referral_id,Reverse link to referrals
+service_encounters,service_taxonomy_code,string,AIRS/211 taxonomy code for the service,BH-1800.8500,true,false,false,,Enables cross-org reporting
+service_encounters,units_of_service,int,Count or duration units per org convention,11,true,false,false,,Hours/nights/meals depending on type
+service_encounters,outcome_flag,enum,Short outcome classification,positive,true,false,false,,Values: positive/neutral/negative/unknown
+service_encounters,goods_services_provided,string,Semi-colon list of items or services,bed;meal;shower,true,false,false,,For goods/meal encounters
+service_encounters,diversion_flag,bool,True when encounter diverted client from homelessness,false,true,false,false,,Shelter diversion program signal
+service_encounters,diversion_destination,string,Short description of diversion destination,Family home,true,false,false,,Populated when diversion_flag true
+consent_records,consent_id,string,Unique identifier for the consent record,CON-0099812,false,true,false,,PIPA-mandated audit unit
+consent_records,client_id,string,Client granting consent,CL-00010234,false,false,true,clients.client_id,Subject of consent
+consent_records,collecting_org_id,string,Organization that collected the consent,ORG-0042,false,false,true,organizations.org_id,Accountable party under PIPA
+consent_records,dsa_id,string,Data sharing agreement governing this consent,DSA-008,true,false,true,data_sharing_agreements.dsa_id,Null when consent is purely local
+consent_records,consent_type,enum,Form of consent obtained,explicit,false,false,false,,Values: implied/explicit/substitute/emergency
+consent_records,status,enum,Current consent state,active,false,false,false,,Values: active/expired/withdrawn/superseded/pending
+consent_records,legal_basis,enum,PIPA legal basis supporting the collection,consent,false,false,false,,Values: consent/public_body/legal_obligation/vital_interest
+consent_records,purpose_codes,string,Semi-colon list of purpose codes,service_delivery;ca_matching,false,false,false,,Controls allowable downstream uses
+consent_records,data_categories,string,Semi-colon list of data categories covered,identifiers;health;housing,false,false,false,,Granular PIPA scoping
+consent_records,sharing_scope_type,enum,Breadth of sharing permitted,cluster,false,false,false,,Values: none/org/cluster/ca_table/named_agencies
+consent_records,sharing_scope_agency_ids,string,Semi-colon list of org_ids when scope is named,ORG-0042;ORG-0071,true,false,false,,Populated only for named_agencies scope
+consent_records,given_date,date,Date consent was given,2026-01-15,false,false,false,,Primary audit timestamp
+consent_records,effective_date,date,Date consent becomes effective,2026-01-15,false,false,false,,Usually equals given_date
+consent_records,expiry_date,date,Date consent expires,2027-01-15,true,false,false,,Null for ongoing consent
+consent_records,withdrawal_date,date,Date consent was withdrawn by client,,true,false,false,,PIPA right to withdraw
+consent_records,superseded_date,date,Date consent was replaced by newer record,,true,false,false,,Chain-of-consent tracking
+consent_records,consent_source,enum,How consent was captured,paper,true,false,false,,Values: paper/verbal/digital_signature/kiosk
+consent_records,obtained_by_user_id,string,Staff user who obtained the consent,USR-112,true,false,false,,Accountability field
+consent_records,witness_user_id,string,Staff user who witnessed consent,USR-087,true,false,false,,Required for some substitute consents
+consent_records,consent_document_ref,string,Pointer to stored consent document,doc://consents/2026/CON-0099812.pdf,true,false,false,,Evidentiary record
+consent_records,notes,string,Free-text notes about the consent,Client prefers no outreach,true,false,false,,Operational context
+data_sharing_agreements,dsa_id,string,Unique identifier for the data sharing agreement,DSA-008,false,true,false,,Governance unit
+data_sharing_agreements,name,string,Human-readable name of the DSA,South Island CA Table DSA,false,false,false,,Used in reports
+data_sharing_agreements,type,enum,Category of agreement,multi_party,false,false,false,,Values: bilateral/multi_party/cluster/ca_table
+data_sharing_agreements,signatory_orgs,string,Semi-colon list of signatory org_ids,ORG-0042;ORG-0071;ORG-0088,false,false,false,,Must include collecting org
+data_sharing_agreements,effective_date,date,Date agreement becomes effective,2025-07-01,false,false,false,,Consent cannot predate effective_date
+data_sharing_agreements,expiry_date,date,Date agreement expires,2028-06-30,true,false,false,,Null for open-ended DSAs
+data_sharing_agreements,description,string,Short description of scope and purpose,Governs sharing for Coordinated Access matching,true,false,false,,Narrative context
+duplicate_flags,duplicate_flag_id,string,Unique identifier for the duplicate pair,DUP-00231,false,true,false,,One row per candidate pair
+duplicate_flags,client_id_primary,string,Client considered the authoritative record,CL-00010234,false,false,true,clients.client_id,Surviving record after merge
+duplicate_flags,client_id_secondary,string,Client considered the duplicate candidate,CL-00014998,false,false,true,clients.client_id,Candidate to merge or link
+duplicate_flags,match_score,float,Probabilistic match score 0-1,0.87,false,false,false,,From hackathon baseline matcher
+duplicate_flags,possible_duplicate_reason,string,Short reason describing which fields matched,name+dob+initials,true,false,false,,Aids reviewer triage
+duplicate_flags,review_status,enum,Current status of human review,confirmed_duplicate,false,false,false,,Values: pending/confirmed_duplicate/not_duplicate/needs_more_info
+duplicate_flags,review_decision_date,date,Date of the review decision,2026-03-14,true,false,false,,Populated when status != pending
+duplicate_flags,reviewer_org_id,string,Organization that performed the review,ORG-0042,true,false,true,organizations.org_id,Accountability trail

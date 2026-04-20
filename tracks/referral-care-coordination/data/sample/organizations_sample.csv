@@ -1,0 +1,10 @@
+org_id,org_name,org_type,cluster_id,address_street,address_city,address_province,address_postal,service_taxonomy_code,target_population,genders_served,age_min,age_max,capacity_total_slots,capacity_occupied_slots,waitlist_flag,waitlist_size,waitlist_average_days,last_capacity_update
+ORG-0001,Inner Harbour Emergency Shelter,shelter,1,43321 Brittany Bypass,Victoria,BC,V9H 3E1,BH-180.1700,adults,all,19,99,75,74,True,35,14,2026-04-16 17:00:00
+ORG-0002,Rock Bay Youth Shelter,shelter,1,33890 Jennifer Squares,Victoria,BC,V8Q 9A8,BH-180.1700,youth,all,16,24,28,20,True,13,94,2026-04-16 02:00:00
+ORG-0003,Downtown Outreach Collective,outreach,1,79402 Peterson Drives Apt. 511,Victoria,BC,,PH-6200.7000,adults,all,19,99,0,0,False,0,0,2026-04-18 23:00:00
+ORG-0004,Pandora Recovery Services,addictions,1,55940 Herrera Lane Apt. 849,Victoria,BC,V9K 4E3,RX-1700,adults,all,19,99,40,41,True,22,16,2026-04-18 12:00:00
+ORG-0005,Island Mental Health Partners,mental_health,1,310 Kendra Common Apt. 164,Victoria,BC,V9T 4Z0,RP-1400,all_ages,all,12,99,60,52,True,30,71,2026-04-18 08:00:00
+ORG-0006,Vancouver Island Legal Aid Clinic,legal_aid,2,525 Clark Grove Apt. 928,Victoria,BC,V9C 8J9,FT-6000,all_ages,all,0,99,0,0,False,0,0,2026-04-17 01:00:00
+ORG-0007,Mustard Seed Food Bank,food_bank,2,76483 Cameron Trail,Victoria,BC,V8W 1B3,BD-1800,all_ages,all,0,99,0,0,False,0,0,2026-04-17 10:00:00
+ORG-0008,Pacifica Supportive Housing,housing,2,05641 Robin Port,Victoria,BC,V8M 4O5,BH-180.1500,adults,all,19,99,120,137,False,0,0,2026-04-18 03:00:00
+ORG-0009,Our Place Community Hub,other,2,76724 John Points Suite 969,Victoria,BC,V9W 1T2,YZ-0000,all_ages,all,0,99,200,173,True,35,96,2026-04-17 16:00:00

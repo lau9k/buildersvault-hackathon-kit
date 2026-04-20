@@ -1,0 +1,193 @@
+table,field,type,description,example,nullable,is_pk,is_fk,fk_target,notes
+depots,depot_id,string,Unique identifier for the depot or kitchen location,DEP-01,false,true,false,,Stable across seasons
+depots,name,string,Human-readable name of the depot,Central Commissary,false,false,false,,Display name
+depots,address,string,Full street address of the depot,1 Centennial Sq Victoria BC,false,false,false,,Used for routing origin
+depots,lat,float,Latitude of depot in WGS84,48.4284,false,false,false,,Geocoded
+depots,lng,float,Longitude of depot in WGS84,-123.3656,false,false,false,,Geocoded
+depots,capacity_meals_per_day,int,Maximum meals prepared per operating day,800,false,false,false,,Production ceiling
+depots,hours_start,string,Depot opening time HH:MM 24h,06:00,false,false,false,,Drives shift windows
+depots,hours_end,string,Depot closing time HH:MM 24h,18:00,false,false,false,,Drives shift windows
+vehicles,vehicle_id,string,Unique identifier for delivery vehicle,VEH-0009,false,true,false,,Fleet asset key
+vehicles,type,enum,Vehicle class,cargo_van,false,false,false,,Values: sedan/cargo_van/truck/suv/bike
+vehicles,capacity_meals,int,Maximum meal units carried,300,false,false,false,,Operational capacity
+vehicles,capacity_weight_kg,float,Maximum cargo weight in kilograms,900.0,false,false,false,,Safety rating
+vehicles,refrigerated,bool,True if cold-chain capable,true,false,false,false,,Required for cold meals
+vehicles,wheelchair_lift,bool,True if equipped with wheelchair lift,false,false,false,false,,Rare but critical for some clients
+vehicles,availability_start,date,First day vehicle is in service,2026-01-01,true,false,false,,Null for always-on
+vehicles,availability_end,date,Last day vehicle is in service,,true,false,false,,Null for open-ended
+vehicles,fuel_type,enum,Propulsion category,gasoline,false,false,false,,Values: gasoline/diesel/ev/hybrid/human
+drivers,driver_id,string,Unique driver identifier,DRV-0041,false,true,false,,Stable staff identifier
+drivers,first_name,string,Driver first name,Amanda,false,false,false,,Case varies in source
+drivers,last_name,string,Driver last name,Okoye,false,false,false,,Case varies in source
+drivers,role_type,enum,Employment category,staff,false,false,false,,Values: staff/volunteer/contractor
+drivers,phone,string,Driver contact phone,(250) 555-0199,true,false,false,,Multiple formats present
+drivers,email,string,Driver contact email,amanda.o@example.org,true,false,false,,Volunteers may lack email
+drivers,license_class,string,BC driver licence class,Class 5,true,false,false,,Class 4 needed for some vehicles
+drivers,background_check_date,date,Date of most recent criminal record check,2025-09-12,true,false,false,,Annual renewal
+drivers,home_base_depot_id,string,Depot where driver normally starts shifts,DEP-01,false,false,true,depots.depot_id,Routing anchor
+drivers,shift_start,string,Typical shift start HH:MM,08:00,true,false,false,,Soft window
+drivers,shift_end,string,Typical shift end HH:MM,14:00,true,false,false,,Soft window
+drivers,max_hours,float,Max hours per shift allowed,6.0,true,false,false,,Labour compliance
+drivers,max_stops,int,Max stops assignable per shift,25,true,false,false,,Capacity constraint
+drivers,max_distance_km,float,Max distance per shift,80.0,true,false,false,,Capacity constraint
+drivers,vehicle_id,string,Typically assigned vehicle,VEH-0009,true,false,true,vehicles.vehicle_id,May vary by day
+drivers,can_handle_wheelchair,bool,Trained to assist wheelchair users,true,true,false,false,,Accessibility skill
+drivers,can_climb_stairs,bool,Able to carry meals up stairs,true,true,false,false,,Physical requirement
+drivers,can_enter_private_homes,bool,Cleared to enter client residences,false,true,false,false,,Trust and check requirement
+drivers,pet_allergy_flag,bool,Has pet allergy requiring accommodation,false,true,false,false,,Affects stop assignment
+drivers,language_skills,string,Semi-colon list of languages spoken,en;fr;tl,true,false,false,,For multilingual stops
+drivers,food_safety_trained,bool,Holds FoodSafe Level 1 or higher,true,false,false,false,,Regulatory requirement
+drivers,total_shifts_completed,int,Cumulative shifts on record,142,true,false,false,,Experience proxy
+drivers,on_time_rate,float,Share of stops completed on time in last 90 days,0.91,true,false,false,,Operational KPI
+drivers,no_answer_rate,float,Share of stops with no-answer outcome,0.04,true,false,false,,Quality metric
+drivers,average_service_duration,float,Mean minutes spent at each stop,4.2,true,false,false,,Used in planning
+clients,client_id,string,Unique client identifier,MOW-0012034,false,true,false,,Source of truth key
+clients,external_reference,string,Referral source reference id,HA-REF-998,true,false,false,,From health authority or agency
+clients,first_name,string,Client first name,Eleanor,false,false,false,,Case varies
+clients,last_name,string,Client last name,Reyes,false,false,false,,Case varies
+clients,preferred_name,string,Name client prefers to be addressed by,Ellie,true,false,false,,Dignity and accuracy
+clients,dob,date,Date of birth,1947-03-18,true,false,false,,Age used when dob absent
+clients,age,int,Age in years,78,true,false,false,,Often seniors
+clients,phone_primary,string,Primary phone,(250) 555-0143,true,false,false,,Multiple formats
+clients,phone_secondary,string,Secondary phone or emergency contact,(250) 555-0188,true,false,false,,Caregiver line
+clients,email,string,Email if available,,true,false,false,,Rare for seniors
+clients,preferred_contact_method,enum,Preferred channel for coordination,phone,true,false,false,,Values: phone/sms/email/in_person
+clients,language_primary,string,Primary language,English,true,false,false,,Drives interpreter flag
+clients,interpreter_required,bool,True when interpreter is needed,false,true,false,false,,Service delivery flag
+clients,address_street,string,Street address of delivery location,1234 Blanshard St,false,false,false,,Geocode source
+clients,address_city,string,City of delivery location,Victoria,false,false,false,,BC municipality
+clients,address_postal,string,Canadian postal code,V8W 0B3,true,false,false,,Format varies
+clients,lat,float,Geocoded latitude of delivery location,48.4301,true,false,false,,Used for routing
+clients,lng,float,Geocoded longitude of delivery location,-123.3610,true,false,false,,Used for routing
+clients,geocode_precision,enum,Confidence of geocoding result,rooftop,true,false,false,,Values: rooftop/interpolated/postal_centroid/unknown
+clients,household_size,int,Total people in household,1,true,false,false,,Affects meal counts
+clients,household_adults,int,Number of adults,1,true,false,false,,Subset of household_size
+clients,household_children,int,Number of children,0,true,false,false,,Subset of household_size
+clients,household_seniors,int,Number of seniors 65+,1,true,false,false,,Subset of household_size
+clients,food_security_level,enum,Food insecurity classification,moderate,true,false,false,,Values: secure/marginal/moderate/severe
+clients,indigenous_identity_flag,bool,Self-reported Indigenous identity,false,true,false,false,,Optional self-ID
+clients,enrolment_date,date,Date client enrolled in program,2024-05-20,true,false,false,,Program start
+clients,enrolment_status,enum,Current enrolment status,active,false,false,false,,Values: active/paused/closed/waitlist
+clients,closure_date,date,Date client was closed from program,,true,false,false,,Null for active
+clients,closure_reason,string,Free-text closure reason,,true,false,false,,Populated on closure
+clients,diet_diabetic,bool,Requires diabetic diet,true,true,false,false,,Dietary flag
+clients,diet_low_sodium,bool,Requires low-sodium diet,true,true,false,false,,Dietary flag
+clients,diet_heart_healthy,bool,Requires heart-healthy diet,false,true,false,false,,Dietary flag
+clients,diet_renal,bool,Requires renal diet,false,true,false,false,,Dietary flag
+clients,diet_pureed,bool,Requires pureed texture,false,true,false,false,,Texture flag
+clients,diet_minced,bool,Requires minced texture,false,true,false,false,,Texture flag
+clients,diet_soft,bool,Requires soft texture,false,true,false,false,,Texture flag
+clients,diet_gluten_free,bool,Requires gluten-free diet,false,true,false,false,,Dietary flag
+clients,diet_vegetarian,bool,Vegetarian diet,false,true,false,false,,Dietary preference
+clients,diet_vegan,bool,Vegan diet,false,true,false,false,,Dietary preference
+clients,diet_halal,bool,Halal diet,false,true,false,false,,Faith-based
+clients,diet_kosher,bool,Kosher diet,false,true,false,false,,Faith-based
+clients,diet_lactose_free,bool,Lactose-free diet,false,true,false,false,,Dietary flag
+clients,allergy_peanut_severity,enum,Peanut allergy severity,none,true,false,false,,Values: none/mild/moderate/severe/anaphylactic
+clients,allergy_tree_nut_severity,enum,Tree nut allergy severity,none,true,false,false,,Same scale
+clients,allergy_shellfish_severity,enum,Shellfish allergy severity,none,true,false,false,,Same scale
+clients,allergy_fish_severity,enum,Fish allergy severity,none,true,false,false,,Same scale
+clients,allergy_egg_severity,enum,Egg allergy severity,none,true,false,false,,Same scale
+clients,allergy_soy_severity,enum,Soy allergy severity,none,true,false,false,,Same scale
+clients,allergy_wheat_severity,enum,Wheat allergy severity,none,true,false,false,,Distinct from gluten-free
+clients,mobility_wheelchair,bool,Uses wheelchair,false,true,false,false,,Mobility flag
+clients,mobility_walker,bool,Uses walker,true,true,false,false,,Mobility flag
+clients,mobility_cane,bool,Uses cane,false,true,false,false,,Mobility flag
+clients,mobility_bedbound,bool,Primarily bedbound,false,true,false,false,,Requires in-home delivery
+clients,mobility_requires_assistance_at_door,bool,Needs assistance to receive at door,true,true,false,false,,Service duration impact
+clients,mobility_low_vision,bool,Low vision or blind,false,true,false,false,,Access accommodation
+clients,mobility_hard_of_hearing,bool,Hard of hearing or deaf,false,true,false,false,,Access accommodation
+clients,building_type,enum,Type of residence,apartment,true,false,false,,Values: house/apartment/condo/rooming/shelter/other
+clients,floor_number,int,Floor number if multi-unit,4,true,false,false,,Relevant with stairs
+clients,has_elevator,bool,True if building has elevator,true,true,false,false,,Reduces service duration
+clients,stairs_count,int,Number of stairs at entry,0,true,false,false,,Driver capability match
+clients,buzzer_code,string,Entry buzzer code,202,true,false,false,,Sensitive operational detail
+clients,buzzer_instructions,string,Free-text buzzer usage notes,Dial 0143 then press call,true,false,false,,Delivery context
+clients,key_safe_location,string,Where key safe is located,By front door,true,false,false,,Sensitive operational detail
+clients,key_safe_code,string,Key safe code,1234,true,false,false,,Treated as secret
+clients,access_window_notes,string,Free-text access time notes,Prefer before 11am,true,false,false,,Informs scheduling
+clients,has_dog_on_premises,bool,Dog on premises,false,true,false,false,,Affects pet_allergy_flag on driver
+clients,dog_notes,string,Free-text dog details,Friendly but barks,true,false,false,,Driver safety context
+clients,client_trust_level,enum,Trust tier assigned by coordinator,standard,true,false,false,,Values: standard/elevated/restricted
+clients,safe_to_leave_unattended,bool,Meal can be left without contact,false,true,false,false,,Policy and risk signal
+clients,requires_two_person_team,bool,Requires two drivers,false,true,false,false,,Safety or assistance
+clients,do_not_enter_home,bool,Client requests no home entry,true,false,false,false,,Hard constraint
+clients,home_depot_id,string,Depot normally serving this client,DEP-01,false,false,true,depots.depot_id,Routing anchor
+clients,health_authority_region,string,Health authority region code,VIHA,true,false,false,,BC health region
+clients,referral_source,string,Free-text referral source,VIHA Community Nurse,true,false,false,,Intake context
+delivery_requests,request_id,string,Unique identifier for delivery request,REQ-2026-04-9901,false,true,false,,One per scheduled delivery
+delivery_requests,client_id,string,Client receiving the delivery,MOW-0012034,false,false,true,clients.client_id,Required
+delivery_requests,created_at,datetime,When request was created,2026-04-12T08:00:00,false,false,false,,Audit timestamp
+delivery_requests,scheduled_date,date,Delivery date,2026-04-15,false,false,false,,Operational key
+delivery_requests,time_window_start,string,Earliest acceptable arrival HH:MM,10:00,true,false,false,,Soft preference
+delivery_requests,time_window_end,string,Latest acceptable arrival HH:MM,12:00,true,false,false,,Soft preference
+delivery_requests,service_duration_minutes,int,Expected minutes at door,5,true,false,false,,Planning input
+delivery_requests,quantity_meals,int,Meals to deliver,2,false,false,false,,Primary quantity
+delivery_requests,quantity_boxes,int,Boxes to deliver,1,true,false,false,,Secondary packaging
+delivery_requests,cold_chain_required,bool,Cold chain needed,true,false,false,false,,Vehicle constraint
+delivery_requests,priority_level,enum,Urgency tier,normal,false,false,false,,Values: low/normal/high/critical
+delivery_requests,frequency,enum,Recurrence pattern,weekly,false,false,false,,Values: one_time/daily/weekly/biweekly
+delivery_requests,program_type,enum,Program funding this request,mow,false,false,false,,Values: mow/food_box/emergency/subsidized
+delivery_requests,funding_stream,string,Funder tag for reporting,VIHA,true,false,false,,Reporting code
+delivery_requests,status,enum,Lifecycle state of the request,completed,false,false,false,,Values: pending/scheduled/out_for_delivery/delivered/failed/cancelled
+delivery_requests,status_reason,string,Short free-text status context,Delivered on time,true,false,false,,Populated on terminal states
+delivery_requests,assigned_route_id,string,Route to which this request is assigned,RTE-2026-04-15-07,true,false,true,routes.route_id,Populated once routed
+delivery_requests,assigned_stop_sequence,int,Stop sequence within the assigned route,5,true,false,false,,Mirrors route_stops
+delivery_requests,required_driver_skills,string,Semi-colon list of required skills,can_climb_stairs;can_handle_wheelchair,true,false,false,,Hard skill match
+delivery_requests,flexibility_flags,string,Semi-colon list of flexibility options,tolerates_early;tolerates_late,true,false,false,,Scheduling latitude
+delivery_requests,dietary_tags_snapshot,string,Snapshot of dietary tags at time of request,diabetic;low_sodium,true,false,false,,For reproducibility
+delivery_requests,mobility_tags_snapshot,string,Snapshot of mobility tags at time of request,walker;stairs_2,true,false,false,,For reproducibility
+routes,route_id,string,Unique identifier for a route,RTE-2026-04-15-07,false,true,false,,One per service day and driver
+routes,service_date,date,Date of service,2026-04-15,false,false,false,,Planning dimension
+routes,driver_id,string,Assigned driver,DRV-0041,false,false,true,drivers.driver_id,Required when dispatched
+routes,vehicle_id,string,Assigned vehicle,VEH-0009,false,false,true,vehicles.vehicle_id,Required when dispatched
+routes,start_depot_id,string,Depot where route begins,DEP-01,false,false,true,depots.depot_id,Usually home depot
+routes,end_depot_id,string,Depot where route ends,DEP-01,false,false,true,depots.depot_id,Usually same as start
+routes,planned_start_time,datetime,Planned route start,2026-04-15T09:00:00,false,false,false,,Baseline for on-time calc
+routes,planned_end_time,datetime,Planned route end,2026-04-15T13:00:00,false,false,false,,Baseline for capacity
+routes,actual_start_time,datetime,Actual route start,2026-04-15T09:07:00,true,false,false,,Populated post hoc
+routes,actual_end_time,datetime,Actual route end,2026-04-15T13:22:00,true,false,false,,Populated post hoc
+routes,planned_distance_km,float,Planned total distance,42.8,false,false,false,,From router
+routes,actual_distance_km,float,Actual distance driven,44.1,true,false,false,,From telematics or odometer
+routes,planned_time_minutes,int,Planned total minutes,240,false,false,false,,From router
+routes,actual_time_minutes,int,Actual total minutes,255,true,false,false,,Observed
+routes,planned_stops,int,Planned stop count,18,false,false,false,,Capacity metric
+routes,actual_stops,int,Actual stops attempted,18,true,false,false,,Observed
+routes,meals_planned,int,Meals loaded onto route,36,false,false,false,,Production link
+routes,meals_delivered,int,Meals successfully delivered,34,true,false,false,,Quality metric
+routes,route_status,enum,Lifecycle state of route,completed,false,false,false,,Values: planned/in_progress/completed/cancelled
+routes,on_time_rate,float,Share of stops on time on this route,0.94,true,false,false,,Observed KPI
+routes,no_answer_count,int,Number of no-answer outcomes on route,1,true,false,false,,Quality metric
+routes,rerouted_stops_count,int,Stops reordered mid-route,0,true,false,false,,Ops metric
+routes,volunteer_hours_recorded,float,Volunteer hours attributed to this route,0.0,true,false,false,,Grant reporting
+route_stops,route_stop_id,string,Unique identifier for a stop,STOP-2026-04-15-07-05,false,true,false,,Composite includes route + seq
+route_stops,route_id,string,Parent route,RTE-2026-04-15-07,false,false,true,routes.route_id,Required
+route_stops,request_id,string,Delivery request fulfilled at this stop,REQ-2026-04-9901,false,false,true,delivery_requests.request_id,Required
+route_stops,client_id,string,Client at this stop,MOW-0012034,false,false,true,clients.client_id,Denormalized for convenience
+route_stops,sequence_index,int,Position within route,5,false,false,false,,1-based
+route_stops,planned_arrival,datetime,Planned arrival time,2026-04-15T10:10:00,false,false,false,,Baseline for on-time
+route_stops,planned_departure,datetime,Planned departure time,2026-04-15T10:15:00,false,false,false,,Baseline for service duration
+route_stops,actual_arrival,datetime,Actual arrival time,2026-04-15T10:12:00,true,false,false,,Observed
+route_stops,actual_departure,datetime,Actual departure time,2026-04-15T10:18:00,true,false,false,,Observed
+route_stops,wait_time_minutes,int,Minutes waited before service began,0,true,false,false,,Queue time at door
+route_stops,service_duration_minutes,int,Actual minutes spent at stop,6,true,false,false,,Observed
+route_stops,distance_from_prev_km,float,Distance from prior stop,1.2,true,false,false,,Sequence metric
+route_stops,travel_time_from_prev_minutes,int,Travel minutes from prior stop,4,true,false,false,,Sequence metric
+route_stops,status,enum,Stop outcome state,delivered,false,false,false,,Values: planned/delivered/no_answer/refused/failed/skipped
+route_stops,failure_reason,string,Short reason if not delivered,,true,false,false,,Populated for non-delivered
+route_stops,left_at_door,bool,Meal left at door without contact,false,true,false,false,,Requires safe_to_leave_unattended
+route_stops,signature_captured,bool,Electronic signature captured,true,true,false,false,,Proof-of-delivery
+route_stops,driver_notes,string,Free-text driver observation,Client well today,true,false,false,,Narrative
+inventory_items,item_id,string,Unique identifier for inventory item,ITM-0015,false,true,false,,SKU-like key
+inventory_items,name,string,Human-readable item name,Chicken and rice meal,false,false,false,,Display name
+inventory_items,category,enum,Item category,hot_meal,false,false,false,,Values: hot_meal/frozen_meal/food_box/beverage/snack/other
+inventory_items,unit,string,Unit of measure,each,false,false,false,,Per dispatch unit
+inventory_items,allergen_flags,string,Semi-colon list of allergens present,dairy;gluten,true,false,false,,Drives allergy filtering
+inventory_items,dietary_tags,string,Semi-colon list of dietary tags,low_sodium;heart_healthy,true,false,false,,Drives dietary matching
+inventory_items,cold_chain_required,bool,Requires refrigerated transport,true,false,false,false,,Vehicle constraint
+inventory_items,standard_cost,float,Reporting cost per unit in CAD,6.75,true,false,false,,Funder reporting
+delivery_request_items,line_id,string,Unique identifier for the request line,LINE-REQ-9901-1,false,true,false,,One per item on a request
+delivery_request_items,request_id,string,Parent delivery request,REQ-2026-04-9901,false,false,true,delivery_requests.request_id,Required
+delivery_request_items,item_id,string,Inventory item on this line,ITM-0015,false,false,true,inventory_items.item_id,Required
+delivery_request_items,quantity,int,Quantity of the item,2,false,false,false,,Integer units
+delivery_request_items,notes,string,Free-text line notes,Extra sauce on side,true,false,false,,Kitchen context

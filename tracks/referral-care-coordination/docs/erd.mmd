@@ -1,0 +1,88 @@
+erDiagram
+    ORGANIZATIONS ||--o{ CLIENTS : "primary_org_id"
+    ORGANIZATIONS ||--o{ REFERRALS : "referring_org_id"
+    ORGANIZATIONS ||--o{ REFERRALS : "receiving_org_id"
+    ORGANIZATIONS ||--o{ SERVICE_ENCOUNTERS : "org_id"
+    CLIENTS ||--o{ REFERRALS : "client_id"
+    CLIENTS ||--o{ SERVICE_ENCOUNTERS : "client_id"
+    CLIENTS ||--o{ CONSENT_RECORDS : "client_id"
+    CLIENTS ||--o{ DUPLICATE_FLAGS : "client_id_primary"
+    CLIENTS ||--o{ DUPLICATE_FLAGS : "client_id_secondary"
+    REFERRALS |o--o| SERVICE_ENCOUNTERS : "related_service_encounter_id"
+    DATA_SHARING_AGREEMENTS ||--o{ CONSENT_RECORDS : "dsa_id"
+
+    ORGANIZATIONS {
+        string org_id PK
+        string org_name
+        enum org_type
+        string cluster_id
+        string service_taxonomy_code
+        int capacity_total_slots
+        int capacity_occupied_slots
+        bool waitlist_flag
+    }
+
+    CLIENTS {
+        string client_id PK
+        string primary_org_id FK
+        string first_name
+        string last_name
+        date dob
+        enum housing_status
+        bool chronic_homeless_flag
+        bool ocap_protected
+        string current_consent_id
+    }
+
+    REFERRALS {
+        string referral_id PK
+        string client_id FK
+        string referring_org_id FK
+        string receiving_org_id FK
+        enum referral_type
+        enum status
+        date submitted_at
+        string consent_record_id
+        string related_service_encounter_id FK
+    }
+
+    SERVICE_ENCOUNTERS {
+        string encounter_id PK
+        string client_id FK
+        string org_id FK
+        enum encounter_type
+        date encounter_start
+        date encounter_end
+        string related_referral_id
+        int units_of_service
+    }
+
+    CONSENT_RECORDS {
+        string consent_id PK
+        string client_id FK
+        string collecting_org_id FK
+        string dsa_id FK
+        enum consent_type
+        enum status
+        date given_date
+        date expiry_date
+    }
+
+    DATA_SHARING_AGREEMENTS {
+        string dsa_id PK
+        string name
+        enum type
+        string signatory_orgs
+        date effective_date
+        date expiry_date
+    }
+
+    DUPLICATE_FLAGS {
+        string duplicate_flag_id PK
+        string client_id_primary FK
+        string client_id_secondary FK
+        float match_score
+        string possible_duplicate_reason
+        enum review_status
+        string reviewer_org_id
+    }

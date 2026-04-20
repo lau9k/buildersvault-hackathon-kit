@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data artifacts — regeneratable, keep repo light
+tracks/*/data/raw/*.parquet
+tracks/*/data/raw/*.sqlite
+# keep sample CSVs committed for preview
+!tracks/*/data/sample/*.csv
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Build
+dist/
+build/
+*.egg-info/
+BUILD_SPEC.md
