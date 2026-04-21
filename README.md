@@ -146,7 +146,7 @@ See `docs/submission-checklist.md` for the full list. At a minimum Saturday:
 
 ## Licensing & IP
 
-Code in this kit is MIT. The synthetic data is CC BY 4.0. Everything you build during the weekend is yours. BuildersVault does not claim IP on team work. Partners (Cool Aid, FatiCare, and others involved as speakers or judges) may express interest in seeing solutions after the weekend. That conversation is between you and them.
+Code in this kit is MIT. The synthetic data is CC BY 4.0. Everything you build during the weekend is yours. BuildersVault does not claim IP on team work. Partners (Xenex Consultin Inc. / FatehCare, and others involved as speakers or judges) may express interest in seeing solutions after the weekend. That conversation is between you and them.
 
 No real personally identifiable information appears in any file in this repo. Every name, address, phone number, and ID is generated with Faker using seed=42.
 
@@ -154,8 +154,8 @@ No real personally identifiable information appears in any file in this repo. Ev
 
 ## Support
 
-- Event community channel: posted on the Luma page
+- Event community channel: https://www.linkedin.com/posts/buildersvault_the-repo-is-a-scaffold-the-theme-is-the-activity-7452244679225683968-CTHP?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAACQx0FYBScC4YxFx44SDSoSuwijABPebMqo
 - Starter kit issues: open a GitHub issue on this repo
 - Data or generator bugs: tag the issue `dataset`
-- Questions during the event: ping in the Discord listed on the Luma page
+- Questions during the event: ping in the comments on LinkedIn. Let's build in public
 - Event host: Lautaro Cepeda (BuildersVault)
