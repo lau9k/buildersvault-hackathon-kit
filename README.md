@@ -1,7 +1,7 @@
 # BuildersVault Social Services Hackathon — Starter Kit
 
 **Event:** BuildersVault Social Services Hackathon
-**Kickoff:** Monday April 20, 2026, 6:30 PM at Modus Design Labs (Owen Works), Victoria BC
+**Kickoff:** Monday April 20, 2026, 5:30 PM at Modus Design Labs (Owen Works), Victoria BC
 **Demo & Awards:** Saturday April 25, 2026, 6:30 to 9:30 PM at UVic Bob Wright B150 Flury Hall
 **Register:** https://luma.com/uvqu2y5o
 
